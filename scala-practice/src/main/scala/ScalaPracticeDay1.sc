@@ -1,5 +1,4 @@
 import com.typesafe.scalalogging.Logger
-
 import scala.collection.mutable.Map
 
 val logger = Logger(getClass)
@@ -68,11 +67,8 @@ class MapChecker {
   val check = MapChecker.existOrNot(1)
   logger.info("check the value :" + check)
 }
-
 val checkInTheMap = new MapChecker
 logger.info("modify the value in the map: " + checkInTheMap.modifyThemap(3 -> "reetesh"))
-
-
 
 
 
