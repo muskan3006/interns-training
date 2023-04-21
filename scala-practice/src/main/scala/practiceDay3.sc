@@ -58,7 +58,6 @@ val aList = List(1, 2, 3, 4, 5)
 val prepend = 42 +: aList :+ 45
 prepend.mkString("-|-")
 val aListPlusList = aList :+ list
-aListPlusList
 aList :+ list
 aList :: list
 aList ::: list
