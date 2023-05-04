@@ -14,15 +14,15 @@ logger.info("Person's age nature :" + describePerson("shrasti", 21))
 
 def evenOrOdd(number: Int): String = {
   number match {
-    case num if num % 2 == 0 => s"$num is even"
-    case num if num % 2 != 0 => s"$num is odd"
+    case matchNumber if matchNumber % 2 == 0 => s"$matchNumber is even"
+    case matchNumber if matchNumber % 2 != 0 => s"$matchNumber is odd"
   }
 }
 logger.info("Find even or odd the number :" + evenOrOdd(3))
 logger.info("Find even or odd the number :" + evenOrOdd(-2))
 
 def flattenListusingFlatMap(inputList: List[List[Int]]): List[Int] = {
-  inputList.flatten(x => x)
+  inputList.flatten
 }
 logger.info("flatten the list using flatten : " + flattenListusingFlatMap(List(List(5, 6), List(2, 3))))
 
@@ -43,14 +43,14 @@ sealed abstract class Experiment
 
 case class Var(name: String) extends Experiment
 
-case class Number(num: Int) extends Experiment
+case class Number(inputNumber: Int) extends Experiment
 
-case class sum(num1: Int, num2: Int) extends Experiment
+case class Addition(inputNumber1: Int, inputNumber2: Int) extends Experiment
 
-def describe(e: Experiment): String = e match {
+def describe(expression: Experiment): String = expression match {
   case Var(_) => "This is var"
   case Number(_) => " This is a number"
-  case sum(num1, num2) => s"Sum of two numbers : ${num1 + num2}"
+  case Addition(matchNumber1, matchNumber2) => s"Sum of two numbers : ${matchNumber1 + matchNumber2}"
   case _ => "Invalid"
 }
 val number = Number(4)
@@ -81,8 +81,8 @@ logger.info("partial function:" + integrate(5))
 def addList(myList: List[Int]): Try[Int] = Try {
   myList match {
     case Nil => throw new IllegalArgumentException
-    case head :: Nil => myList.head
-    case head :: tail => myList.sum
+    case _ :: Nil => myList.head
+    case _ :: _ => myList.sum
   }
 }
 val addListResult = addList(List(2, 3, 4, 5))
