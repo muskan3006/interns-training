@@ -4,33 +4,33 @@ import com.typesafe.scalalogging.Logger
 
 object ScalaPracticeDay4 extends App {
   val logger = Logger(getClass)
-  logger.info("evaluate number class : " + ExpressionCalculator.evaluate(Number(5)))
-  logger.info("evaluate Sum class : " + ExpressionCalculator.evaluate(Sum2(Number(10), Number(20))))
-  logger.info("evaluate Sum class : " + ExpressionCalculator.evaluate(Sum2(Sum2(Number(7), Number(8)), Number(13))))
-  logger.info("evaluate Multiply Class: " + ExpressionCalculator.evaluate(Multiply2(Sum2(Number(1), Number(2)), Sum2(Number(5), Number(3)))))
-  logger.info("evaluate minus class: " + ExpressionCalculator.evaluate(Minus2(Sum2(Minus2(Number(54), Number(96)), Number(17)), Multiply2(Number(7), Number(9)))))
-  logger.info("evaluate Divide Class : " + ExpressionCalculator.evaluate(Multiply2(Sum2(Divide2(Number(100), Number(10)), Multiply2(Number(15), Divide2(Number(50), Number(5)))), Minus2(Multiply2(Number(69), Number(47)), Number(178)))))
+  logger.info("evaluate number class : " + ExpressionCalculatorShrasti.evaluate(TakeNumber(5)))
+  logger.info("evaluate Sum class : " + ExpressionCalculatorShrasti.evaluate(SumOfTwoNumbers(TakeNumber(10), TakeNumber(20))))
+  logger.info("evaluate Sum class : " + ExpressionCalculatorShrasti.evaluate(SumOfTwoNumbers(SumOfTwoNumbers(TakeNumber(7), TakeNumber(8)), TakeNumber(13))))
+  logger.info("evaluate Multiply Class: " + ExpressionCalculatorShrasti.evaluate(MultiplyOfTwoNumbers(SumOfTwoNumbers(TakeNumber(1), TakeNumber(2)), SumOfTwoNumbers(TakeNumber(5), TakeNumber(3)))))
+  logger.info("evaluate minus class: " + ExpressionCalculatorShrasti.evaluate(MinusOfTwoNumbers(SumOfTwoNumbers(MinusOfTwoNumbers(TakeNumber(54), TakeNumber(96)), TakeNumber(17)), MultiplyOfTwoNumbers(TakeNumber(7), TakeNumber(9)))))
+  logger.info("evaluate Divide Class : " + ExpressionCalculatorShrasti.evaluate(MultiplyOfTwoNumbers(SumOfTwoNumbers(DivideOfTwoNumbers(TakeNumber(100), TakeNumber(10)), MultiplyOfTwoNumbers(TakeNumber(15), DivideOfTwoNumbers(TakeNumber(50), TakeNumber(5)))), MinusOfTwoNumbers(MultiplyOfTwoNumbers(TakeNumber(69), TakeNumber(47)), TakeNumber(178)))))
 }
 
-abstract class Expression
+abstract class ExpressionShrasti
 
-case class Number(n: Int) extends Expression
+case class TakeNumber(n: Int) extends ExpressionShrasti
 
-case class Sum2(expression1: Expression, expression2: Expression) extends Expression
+case class SumOfTwoNumbers(expression1: ExpressionShrasti, expression2: ExpressionShrasti) extends ExpressionShrasti
 
-case class Minus2(expression1: Expression, expression2: Expression) extends Expression
+case class MinusOfTwoNumbers(expression1: ExpressionShrasti, expression2: ExpressionShrasti) extends ExpressionShrasti
 
-case class Multiply2(expression1: Expression, expression2: Expression) extends Expression
+case class MultiplyOfTwoNumbers(expression1: ExpressionShrasti, expression2: ExpressionShrasti) extends ExpressionShrasti
 
-case class Divide2(expression1: Expression, expression2: Expression) extends Expression
+case class DivideOfTwoNumbers(expression1: ExpressionShrasti, expression2: ExpressionShrasti) extends ExpressionShrasti
 
-object ExpressionCalculator {
-  def evaluate(expr: Expression): Int = expr match {
-    case Number(n) => n
-    case Sum2(expression1, expression2) => evaluate(expression1) + evaluate(expression2)
-    case Minus2(expression1, expression2) => evaluate(expression1) - evaluate(expression2)
-    case Multiply2(expression1, expression2) => evaluate(expression1) * evaluate(expression2)
-    case Divide2(expression1, expression2) =>
+object ExpressionCalculatorShrasti {
+  def evaluate(expr: ExpressionShrasti): Int = expr match {
+    case TakeNumber(n) => n
+    case SumOfTwoNumbers(expression1, expression2) => evaluate(expression1) + evaluate(expression2)
+    case MinusOfTwoNumbers(expression1, expression2) => evaluate(expression1) - evaluate(expression2)
+    case MultiplyOfTwoNumbers(expression1, expression2) => evaluate(expression1) * evaluate(expression2)
+    case DivideOfTwoNumbers(expression1, expression2) =>
       if (evaluate(expression2) == 0) 0
       else evaluate(expression1) / evaluate(expression2)
   }

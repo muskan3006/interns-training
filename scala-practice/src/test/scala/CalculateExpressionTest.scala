@@ -1,4 +1,4 @@
-import com.knoldus.ExpressionCalculator
+import com.knoldus.ExpressionCalculatorShrasti
 import org.scalatest.funsuite.AnyFunSuite
 import com.knoldus._
 
