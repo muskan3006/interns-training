@@ -1,13 +1,17 @@
 package com.knoldus
 package Scala99
 
+import com.typesafe.scalalogging.Logger
+
 import scala.annotation.tailrec
 
 object Problem31  extends App {
 
-  println(isPrime(24))
+  val logger =Logger(getClass)
 
-  private def isPrime(number: Int): Boolean = {
+  logger.info(""+isPrime(24))
+
+  def isPrime(number: Int): Boolean = {
     if (number <= 1) {
       false
     } else {

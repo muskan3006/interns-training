@@ -4,72 +4,72 @@ import com.typesafe.scalalogging.Logger
 
 object CalculateExpression extends App {
   val logger = Logger(getClass)
-  logger.info("" + ExpressionCalculator.evaluate(Number(5)))
-  logger.info("" + ExpressionCalculator.evaluate(Sum2(Number(10), Number(20))))
-  logger.info("" + ExpressionCalculator.evaluate(Sum2(Sum2(Number(7), Number(8)), Number(13))))
-  logger.info("" + ExpressionCalculator.evaluate(Mult2(Sum2(Number(1), Number(2)), Sum2(Number(5), Number(3)))))
-  logger.info("" + ExpressionCalculator.evaluate(Minus2(Sum2(Minus2(Number(54), Number(96)), Number(17)), Mult2(Number(7), Number(9)))))
-  logger.info("" + ExpressionCalculator.evaluate(Mult2(Sum2(Divide2(Number(100), Number(10)), Mult2(Number(15), Divide2(Number(50), Number(5)))), Minus2(Mult2(Number(69), Number(47)), Number(178)))))
-  logger.info("" + ExpressionCalculator.evaluate(Divide2(Number(1), Number(0))))
+  logger.info("" + ExpressionsCalculator.evaluate(Numbers(5)))
+  logger.info("" + ExpressionsCalculator.evaluate(SumTwoNumber(Numbers(10), Numbers(20))))
+  logger.info("" + ExpressionsCalculator.evaluate(SumTwoNumber(SumTwoNumber(Numbers(7), Numbers(8)), Numbers(13))))
+  logger.info("" + ExpressionsCalculator.evaluate(MultiplyTwoNumber(SumTwoNumber(Numbers(1), Numbers(2)), SumTwoNumber(Numbers(5), Numbers(3)))))
+  logger.info("" + ExpressionsCalculator.evaluate(MinusTwoNumber(SumTwoNumber(MinusTwoNumber(Numbers(54), Numbers(96)), Numbers(17)), MultiplyTwoNumber(Numbers(7), Numbers(9)))))
+  logger.info("" + ExpressionsCalculator.evaluate(MultiplyTwoNumber(SumTwoNumber(DivideByNumber(Numbers(100), Numbers(10)), MultiplyTwoNumber(Numbers(15), DivideByNumber(Numbers(50), Numbers(5)))), MinusTwoNumber(MultiplyTwoNumber(Numbers(69), Numbers(47)), Numbers(178)))))
+  logger.info("" + ExpressionsCalculator.evaluate(DivideByNumber(Numbers(1), Numbers(0))))
 }
 
-abstract class Expression
+abstract class Expressions
 
-case class Number(n: Int) extends Expression
+case class Numbers(n: Int) extends Expressions
 
-case class Sum2(expression1: Expression, expression2: Expression) extends Expression
+case class SumTwoNumber(expression1: Expressions, expression2: Expressions) extends Expressions
 
-case class Minus2(expression1: Expression, expression2: Expression) extends Expression
+case class MinusTwoNumber(expression1: Expressions, expression2: Expressions) extends Expressions
 
-case class Mult2(expression1: Expression, expression2: Expression) extends Expression
+case class MultiplyTwoNumber(expression1: Expressions, expression2: Expressions) extends Expressions
 
-case class Divide2(expression1: Expression, expression2: Expression) extends Expression
+case class DivideByNumber(expression1: Expressions, expression2: Expressions) extends Expressions
 
-object ExpressionCalculator {
-  def evaluate(expression: Expression): Int = {
+object ExpressionsCalculator {
+  def evaluate(expression: Expressions): Int = {
     expression match {
-      case Number(value) => value
-      case Sum2(value1, value2) => helperFunction(Sum2(value1, value2), "+")
-      case Mult2(value1, value2) => helperFunction(Mult2(value1, value2), "*")
-      case Minus2(value1, value2) => helperFunction(Minus2(value1, value2), "-")
-      case Divide2(value1, value2) => helperFunction(Divide2(value1, value2), "/")
+      case Numbers(value) => value
+      case SumTwoNumber(value1, value2) => helperFunction(SumTwoNumber(value1, value2), "+")
+      case MultiplyTwoNumber(value1, value2) => helperFunction(MultiplyTwoNumber(value1, value2), "*")
+      case MinusTwoNumber(value1, value2) => helperFunction(MinusTwoNumber(value1, value2), "-")
+      case DivideByNumber(value1, value2) => helperFunction(DivideByNumber(value1, value2), "/")
       case _ => 0
     }
   }
 
   // helper function return the result
-  private def helperFunction(expression: Expression, operator: String): Int = {
+  private def helperFunction(expression: Expressions, operator: String): Int = {
     operator match {
 
       case "+" => val result1 = expression match {
-        case Sum2(expression1, _) => evaluate(expression1)
+        case SumTwoNumber(expression1, _) => evaluate(expression1)
       }
         val result2 = expression match {
-          case Sum2(_, expression2) => evaluate(expression2)
+          case SumTwoNumber(_, expression2) => evaluate(expression2)
         }
         result1 + result2
 
       case "*" => val result1 = expression match {
-        case Mult2(expression1, _) => evaluate(expression1)
+        case MultiplyTwoNumber(expression1, _) => evaluate(expression1)
       }
         val result2 = expression match {
-          case Mult2(_, expression2) => evaluate(expression2)
+          case MultiplyTwoNumber(_, expression2) => evaluate(expression2)
         }
         result1 * result2
 
       case "/" => val result1 = expression match {
-        case Divide2(expression1, _) => evaluate(expression1)
+        case DivideByNumber(expression1, _) => evaluate(expression1)
       }
         val result2 = expression match {
-          case Divide2(_, expression2) => evaluate(expression2)
+          case DivideByNumber(_, expression2) => evaluate(expression2)
         }
         if (result2 == 0) 0 else result1 / result2
 
       case "-" => val result1 = expression match {
-        case Minus2(expression1, _) => evaluate(expression1)
+        case MinusTwoNumber(expression1, _) => evaluate(expression1)
       }
         val result2 = expression match {
-          case Minus2(_, expression2) => evaluate(expression2)
+          case MinusTwoNumber(_, expression2) => evaluate(expression2)
         }
         result1 - result2
       case _ => 0
